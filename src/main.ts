@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { Logger } from '@nestjs/common';
-import { ConfigService } from '@modules';
+import { ConfigService, LoggerService } from '@modules';
+import { createConnection } from 'typeorm';
 
 if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
   // tslint:disable-next-line
@@ -16,12 +16,17 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const config = app.get(ConfigService);
+  const logger = app.get(LoggerService);
   const host = config.env.HOST;
   const port = config.env.PORT;
 
+  const connection = await createConnection(config.migrationsConfig);
+  await connection.runMigrations();
+  await connection.close();
+
   await app.listen(port, host);
 
-  Logger.log(`Listening on ${host}:${port}`, 'NestApplication');
+  logger.log(`Listening on ${host}:${port}`, 'Bootstrap');
 }
 
 bootstrap();

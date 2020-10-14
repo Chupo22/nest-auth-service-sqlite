@@ -1,2 +1,10 @@
+## Run service
+```
+cp ./.env.sample ./.env
+npm run start:dev
+```
 
-FILL ME
+## Run tests
+```
+./scripts/run-tests.sh
+```

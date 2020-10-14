@@ -14,8 +14,11 @@
     "skipLibCheck": true,
     "strict": true,
     "paths": {
+      "@dto": ["src/dto/index"],
       "@modules": ["src/modules/index"],
+      "@entities": ["src/entities/index"],
       "@services": ["src/services/index"],
+      "@auth-guards": ["src/auth-guards/index"],
       "@interceptors": ["src/interceptors/index"]
     }
   },
